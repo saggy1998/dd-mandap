@@ -348,6 +348,18 @@ html, body {
   text-transform: none;
 }
 
+.hero-author-subtitle {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.55rem, 1.5vw, 0.85rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 1.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
 .hero-author-badge {
   display: inline-flex;
   align-items: center;

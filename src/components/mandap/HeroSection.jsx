@@ -20,6 +20,9 @@ export default function HeroSection({ data, onScrollClick }) {
           <span className="hero-title-serif-break">
             <em>Around the Sacred Fire</em>
           </span>
+          <span className="hero-author-subtitle">
+            written by Kajal Patel
+          </span>
         </motion.h1>
       </motion.div>
     </section>
