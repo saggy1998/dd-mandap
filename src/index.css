@@ -26,9 +26,9 @@
   --color-flame-vermilion: #E0533C;
 
   /* Typography Fonts */
-  --font-display: 'Cinzel', 'Cinzel Decorative', serif;
-  --font-serif: 'Cormorant Garamond', 'Playfair Display', serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: sans-serif;
 
   /* Transitions & Shadows */
   --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -48,24 +48,15 @@ html, body {
   background-color: var(--color-bg-white);
   color: var(--color-obsidian-main);
   font-family: var(--font-serif);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar */
+/* Hide Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #FFFFFF;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-gold-primary);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold-deep);
+  display: none;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -73,7 +64,7 @@ html, body {
    ════════════════════════════════════════════════════════ */
 .snap-page-root {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-bg-white);
@@ -131,9 +122,12 @@ html, body {
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   z-index: 5;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .snap-frame {
@@ -227,28 +221,6 @@ html, body {
   gap: 0.85rem;
 }
 
-.shower-petals-nav-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1.2rem;
-  background: linear-gradient(135deg, #F5D38A 0%, #C5A059 50%, #B89248 100%);
-  border: none;
-  border-radius: 30px;
-  color: var(--color-obsidian-main);
-  font-family: var(--font-sans);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.35);
-  transition: var(--transition-fast);
-}
-
-.shower-petals-nav-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 160, 89, 0.5);
-}
 
 .audio-toggle-btn {
   display: inline-flex;
@@ -697,8 +669,8 @@ html, body {
 
 .saptapadi-tabs-header {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  overflow-x: auto;
   padding-bottom: 0.6rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(197, 160, 89, 0.2);
@@ -718,7 +690,6 @@ html, body {
   color: var(--color-obsidian-muted);
   cursor: pointer;
   transition: var(--transition-fast);
-  white-space: nowrap;
 }
 
 .saptapadi-tab-btn.active, .saptapadi-tab-btn:hover {
@@ -810,28 +781,6 @@ html, body {
 }
 
 /* EPILOGUE & SIGNATURE */
-.shower-petals-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.8rem;
-  background: linear-gradient(135deg, #F5D38A 0%, #C5A059 50%, #B89248 100%);
-  border: none;
-  border-radius: 35px;
-  color: var(--color-obsidian-main);
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
-  transition: var(--transition-fast);
-}
-
-.shower-petals-action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(197, 160, 89, 0.55);
-}
 
 .signature-divider {
   display: flex;
@@ -1006,6 +955,26 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════
+   ETHEREAL SACRED AGNI
+   ════════════════════════════════════════════════════════ */
+.ethereal-agni-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  pointer-events: none;
+  z-index: 50;
+  mix-blend-mode: screen;
+}
+
+.ethereal-agni-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ════════════════════════════════════════════════════════
    RESPONSIVE DESIGN ADAPTATIONS
    ════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -1022,7 +991,7 @@ html, body {
     padding: 0 1rem;
   }
 
-  .snap-card, .snap-card--wide {
+  .snap-card, .snap-card--wide, .snap-card--center {
     width: 92vw;
     padding: 1.5rem;
   }
@@ -1031,9 +1000,6 @@ html, body {
     right: 10px;
   }
 
-  .shower-petals-nav-btn span {
-    display: none;
-  }
 
   .audio-toggle-btn span {
     display: none;

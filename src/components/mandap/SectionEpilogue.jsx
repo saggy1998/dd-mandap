@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Flame, Sparkles } from "lucide-react";
+import { Flame } from "lucide-react";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -11,7 +11,7 @@ const cardVariants = {
   },
 };
 
-export default function SectionEpilogue({ sectionData, author, onTriggerPetalShower }) {
+export default function SectionEpilogue({ sectionData, author }) {
   return (
     <section id={sectionData.id} className="snap-frame snap-frame--content">
       <div className="snap-content-row snap-content-row--center">
@@ -32,16 +32,6 @@ export default function SectionEpilogue({ sectionData, author, onTriggerPetalSho
                 {para}
               </p>
             ))}
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-            <button
-              type="button"
-              className="shower-petals-action-btn"
-              onClick={onTriggerPetalShower}
-            >
-              <Sparkles size={16} /> Shower Flower Petals
-            </button>
           </div>
 
           <div className="signature-divider">

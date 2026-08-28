@@ -7,15 +7,14 @@ import SectionAgniWitness from "./SectionAgniWitness";
 import SectionGranthiPheras from "./SectionGranthiPheras";
 import SectionSaptapadi from "./SectionSaptapadi";
 import SectionSensoryOpulence from "./SectionSensoryOpulence";
-import FlowerPetalShower from "./FlowerPetalShower";
-import { Sparkles, X } from "lucide-react";
+import EtherealAgni from "./EtherealAgni";
+import { X } from "lucide-react";
 
 const TOTAL_FRAMES = 6;
 
 export default function MandapMoodBoard() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [activeFrame, setActiveFrame] = useState(0);
-  const [petalTriggerCount, setPetalTriggerCount] = useState(0);
   const snapContainerRef = useRef(null);
 
   useEffect(() => {
@@ -37,10 +36,6 @@ export default function MandapMoodBoard() {
     container.scrollTo({ top: idx * container.clientHeight, behavior: "smooth" });
   }, []);
 
-  const handleTriggerPetalShower = () => {
-    setPetalTriggerCount((prev) => prev + 1);
-  };
-
   const handleOpenLightbox = (src, caption) => {
     setLightboxImage({ src, caption });
   };
@@ -51,26 +46,8 @@ export default function MandapMoodBoard() {
 
   return (
     <div className="snap-page-root">
-      {/* Interactive Flower Petal Shower Layer */}
-      <FlowerPetalShower triggerCount={petalTriggerCount} />
-
-      {/* Top Floating Control Bar */}
-      <header className="mandap-nav-header">
-        <div className="nav-brand-logo">
-        </div>
-
-        <div className="nav-controls-group">
-          <button
-            type="button"
-            className="shower-petals-nav-btn"
-            onClick={handleTriggerPetalShower}
-            title="Trigger Flower Petals Shower"
-          >
-            <Sparkles size={15} />
-            <span>Shower Petals</span>
-          </button>
-        </div>
-      </header>
+      {/* Ethereal Sacred Agni — luxurious fire animation */}
+      <EtherealAgni activeFrame={activeFrame} totalFrames={TOTAL_FRAMES} />
 
       {/* ════════════════════════════════════════════════════════
           BACKGROUND MEDIA 1 — Behind Frames 0, 1, 2
@@ -79,7 +56,7 @@ export default function MandapMoodBoard() {
       ════════════════════════════════════════════════════════ */}
       <div className="fixed-still-bg">
         <div className="bg-canvas-wrapper">
-          <AgniFlameCanvas />
+          <AgniFlameCanvas scrollIntensity={activeFrame / (TOTAL_FRAMES - 1)} />
         </div>
         <img
           src={`${process.env.PUBLIC_URL}${MEDIA_ASSETS.portrait}`}
@@ -172,7 +149,6 @@ export default function MandapMoodBoard() {
               {i === 3 && "Visual Canopy"}
               {i === 4 && "III. 7 Steps"}
               {i === 5 && "IV. Atmosphere"}
-              {i === 6 && "V. Epilogue"}
             </span>
           </button>
         ))}
