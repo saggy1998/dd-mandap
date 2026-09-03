@@ -8,6 +8,7 @@ import SectionGranthiPheras from "./SectionGranthiPheras";
 import SectionSaptapadi from "./SectionSaptapadi";
 import SectionSensoryOpulence from "./SectionSensoryOpulence";
 import EtherealAgni from "./EtherealAgni";
+import SoundCloudAudioPlayer from "./SoundCloudAudioPlayer";
 import { X } from "lucide-react";
 
 const TOTAL_FRAMES = 6;
@@ -46,6 +47,17 @@ export default function MandapMoodBoard() {
 
   return (
     <div className="snap-page-root">
+      {/* Top Floating Header with Calming SoundCloud Player */}
+      <header className="mandap-nav-header">
+        <div className="nav-brand-logo">
+          <span className="brand-eyebrow">EDITORIAL MOODBOARD</span>
+          <span className="brand-title">MANDAP</span>
+        </div>
+        <div className="nav-controls-group">
+          <SoundCloudAudioPlayer />
+        </div>
+      </header>
+
       {/* Ethereal Sacred Agni — luxurious fire animation */}
       <EtherealAgni activeFrame={activeFrame} totalFrames={TOTAL_FRAMES} />
 

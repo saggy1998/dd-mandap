@@ -248,6 +248,143 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════
+   CALMING SOUNDCLOUD AUDIO PLAYER WIDGET (MINIMAL NO TITLE)
+   ════════════════════════════════════════════════════════ */
+.calming-audio-widget {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calming-audio-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  transition: var(--transition-fast);
+}
+
+.calming-audio-pill:hover, .calming-audio-pill.is-playing {
+  border-color: var(--color-gold-primary);
+  box-shadow: 0 8px 28px rgba(197, 160, 89, 0.25), 0 0 0 1px rgba(197, 160, 89, 0.4) inset;
+}
+
+.calming-play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-obsidian-main);
+  color: var(--color-gold-bright);
+  border: 1px solid var(--color-gold-primary);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calming-play-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px var(--color-gold-glow);
+  background: #000000;
+}
+
+.play-icon--offset {
+  margin-left: 2px;
+}
+
+/* Soundwave Equalizer Animation (No Track Title) */
+.calming-soundwave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.wave-bar {
+  display: inline-block;
+  width: 3px;
+  height: 4px;
+  background: var(--color-gold-primary);
+  border-radius: 2px;
+  transition: height 0.3s ease, background 0.3s ease;
+}
+
+.wave-bar.animating {
+  animation: soundwave-pulse 1.2s infinite ease-in-out alternate;
+  background: var(--color-gold-deep);
+}
+
+@keyframes soundwave-pulse {
+  0% {
+    height: 4px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 16px;
+    opacity: 1;
+  }
+  100% {
+    height: 6px;
+    opacity: 0.7;
+  }
+}
+
+/* Volume Slider Controls */
+.calming-volume-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calming-volume-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--color-obsidian-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color 0.2s ease;
+}
+
+.calming-volume-btn:hover {
+  color: var(--color-obsidian-main);
+}
+
+.calming-volume-popover {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  padding: 0.6rem 0.8rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.calming-volume-slider {
+  accent-color: var(--color-gold-primary);
+  width: 80px;
+  height: 4px;
+  cursor: pointer;
+}
+
+
+/* ════════════════════════════════════════════════════════
    HERO FRAME STYLING
    ════════════════════════════════════════════════════════ */
 .snap-frame--hero {
