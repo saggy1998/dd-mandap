@@ -9,9 +9,10 @@ export default function SoundCloudAudioPlayer() {
   const iframeRef = useRef(null);
   const widgetRef = useRef(null);
   const autoplayTimerRef = useRef(null);
+  const userPausedRef = useRef(false);
 
+  // Initialize SoundCloud Widget ONCE on mount
   useEffect(() => {
-    // Load SoundCloud Widget API script if not already present
     const existingScript = document.getElementById("sc-widget-api");
     if (!existingScript) {
       const script = document.createElement("script");
@@ -34,11 +35,13 @@ export default function SoundCloudAudioPlayer() {
         widgetRef.current = widget;
 
         widget.bind(window.SC.Widget.Events.READY, () => {
-          widget.setVolume(volume);
+          widget.setVolume(80);
           
-          // Trigger autoplay after 1 second (1000ms) as requested
+          // Attempt autoplay 1 second after component mounts
           autoplayTimerRef.current = setTimeout(() => {
-            widget.play();
+            if (!userPausedRef.current) {
+              widget.play();
+            }
           }, 1000);
         });
 
@@ -48,43 +51,48 @@ export default function SoundCloudAudioPlayer() {
       }
     }
 
+    // Listener to start playback on first user gesture if browser blocked unmuted autoplay
+    const triggerPlaybackOnGesture = () => {
+      if (widgetRef.current && !userPausedRef.current && !isPlaying) {
+        widgetRef.current.play();
+      }
+    };
+
+    window.addEventListener("scroll", triggerPlaybackOnGesture, { passive: true, once: true });
+    window.addEventListener("pointerdown", triggerPlaybackOnGesture, { once: true });
+    window.addEventListener("keydown", triggerPlaybackOnGesture, { once: true });
+
     return () => {
       if (autoplayTimerRef.current) {
         clearTimeout(autoplayTimerRef.current);
       }
+      window.removeEventListener("scroll", triggerPlaybackOnGesture);
+      window.removeEventListener("pointerdown", triggerPlaybackOnGesture);
+      window.removeEventListener("keydown", triggerPlaybackOnGesture);
     };
-  }, [volume]);
+  }, []);
 
-  // Fallback listener for browser autoplay restriction: play audio on first user gesture if blocked
+  // Sync volume with SoundCloud widget
   useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (widgetRef.current && !isPlaying) {
-        widgetRef.current.play();
-      }
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
-    };
+    if (widgetRef.current) {
+      widgetRef.current.setVolume(isMuted ? 0 : volume);
+    }
+  }, [volume, isMuted]);
 
-    window.addEventListener("click", handleFirstInteraction, { once: true });
-    window.addEventListener("keydown", handleFirstInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
-    };
-  }, [isPlaying]);
-
-  const togglePlay = () => {
+  const togglePlay = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
     if (autoplayTimerRef.current) {
       clearTimeout(autoplayTimerRef.current);
     }
     if (!widgetRef.current) return;
+
     if (isPlaying) {
+      userPausedRef.current = true;
       widgetRef.current.pause();
     } else {
+      userPausedRef.current = false;
       widgetRef.current.play();
     }
   };
@@ -92,24 +100,10 @@ export default function SoundCloudAudioPlayer() {
   const handleVolumeChange = (e) => {
     const newVol = parseInt(e.target.value, 10);
     setVolume(newVol);
-    if (widgetRef.current) {
-      widgetRef.current.setVolume(newVol);
-    }
     if (newVol === 0) {
       setIsMuted(true);
     } else if (isMuted) {
       setIsMuted(false);
-    }
-  };
-
-  const toggleMute = () => {
-    if (!widgetRef.current) return;
-    if (isMuted) {
-      widgetRef.current.setVolume(volume || 80);
-      setIsMuted(false);
-    } else {
-      widgetRef.current.setVolume(0);
-      setIsMuted(true);
     }
   };
 
@@ -158,14 +152,17 @@ export default function SoundCloudAudioPlayer() {
           <button
             type="button"
             className="calming-volume-btn"
-            onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowVolumeSlider(!showVolumeSlider);
+            }}
             aria-label="Volume settings"
           >
             {isMuted || volume === 0 ? <VolumeX size={15} /> : <Volume2 size={15} />}
           </button>
 
           {showVolumeSlider && (
-            <div className="calming-volume-popover">
+            <div className="calming-volume-popover" onClick={(e) => e.stopPropagation()}>
               <input
                 type="range"
                 min="0"
